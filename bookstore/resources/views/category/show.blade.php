@@ -14,25 +14,25 @@
 
                         </div>
                         <ul class="list-group">
-                            @forelse($category->hasMovies as $movie)
+                            @forelse($category->hasBooks as $book)
                                 <li class="list-group-item">
                                     <div class="movies-list">
                                         <div class="content">
-                                            <h2><span>Title: </span>{{ $movie->title }}</h2>
-                                            <h4><span>Price: </span>{{ $movie->price }}</h4>
+                                            <h2><span>Title: </span>{{ $book->title }}</h2>
+                                            <h4><span>Price: </span>{{ $book->summary }}</h4>
                                         </div>
                                     </div>
                                 </li>
                             @empty
-                                <li class="list-group-item">No categories found</li>
+                                <li class="list-group-item">No books found</li>
                             @endforelse
                         </ul>
                         @if (Auth::user()->role >=10)
                         <div class="buttons mt-2">
-                            <form action="{{route('c_delete_movies', $category)}}" method="post">
+                            <form action="{{route('c_delete_books', $category)}}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="btn btn-danger">Delete all movies</button>
+                                <button type="submit" class="btn btn-danger">Delete all books</button>
                             </form>
                         </div>
                         @endif

@@ -15,7 +15,7 @@
                             <div class="categories-list">
                                 <div class="content">
                                     <h2>{{$category->title}}</h2>
-                                    <small>{{{$category->hasMovies()->count()}}}</small>
+                                    <small>{{{$category->hasBooks()->count()}}}</small>
                                 </div>
                                 <div class="buttons">
                                     <a href="{{route('c_show', $category)}}" class="btn btn-info">Show</a>

@@ -45,7 +45,7 @@ class CategoryController extends Controller
             'title' => $request->title,
         ]);
 
-        return redirect()->route('c_index');
+        return redirect()->route('c_index')->with('ok', 'Category created');
     }
 
     /**
@@ -93,15 +93,19 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($category->hasBooks()->count()) {
-            return redirect()->route('c_index')->with('msg', 'There are books in this category, can not delete it.');
+            return redirect()->route('c_index')->with('not', 'There are books in this category, can not delete it.');
         }
         $category->delete();
-        return redirect()->route('c_index')->with('msg', 'Category deleted');
+        return redirect()->route('c_index')->with('ok', 'Category deleted');
     }
     public function destroyAll(Category $category)
     {
         $ids = $category->hasBooks()->pluck('id')->all();
+        foreach($ids as $id){
+            $book = Book::where('id', $id);
+            unlink(public_path() . '/images/' . pathinfo($book->url, PATHINFO_FILENAME) . '.' . pathinfo($book->url, PATHINFO_EXTENSION));
+        }
         Book::destroy($ids);
-        return redirect()->route('c_index');
+        return redirect()->route('c_index')->with('ok', 'Books deleted');
     }
 }
