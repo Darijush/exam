@@ -68,39 +68,37 @@
                             <div class="item-list">
                                 <div class="content">
                                     <h2><span>Title: </span>{{ $book->title }}</h2>
-                                    <h4><span>Price: </span>{{ $book->price }}</h4>
+                                    <h4><span>Pages: </span>{{ $book->pages }}</h4>
+                                    <h4><span>ISBN(book code): </span>{{ $book->isbn }}</h4>
                                     <h5>
                                         <span>Category: </span>
                                         <a href="{{ route('c_show', $book->getCategory->id) }}">
                                             {{ $book->getCategory->title }}
                                         </a>
                                     </h5>
-                                    @if ($book->getPhotos()->count())
-                                        <h5><a href="{{ $book->lastImageUrl() }}" target="_BLANK">Photos:
-                                                {{ $book->getPhotos()->count() }}</a></h5>
-                                                <div class="slideshow-container">
-                                                    @forelse($book->getPhotos as $photo)
-                                                        <div class="mySlides fade">
-                                                            <img src="{{ $photo->url }}" style="width:100%">
-                                                        </div>
-                                                    @empty
-                                                        <h2>No photos yet.</h2>
-                                                    @endforelse
-                                                </div>
+                                    @if ($book->url)
+                                        <h5><a href="{{ $book->url }}" target="_BLANK">Photo</a></h5>
                                     @endif
-                                    <h4><span>Rating: </span>{{ $book->rating ?? 'No rating' }}</h4>
                                 </div>
 
+                                @if ($book->user_id)
+                                <h4>Books is reserved</h4>
+                                @else
                                 <div class="buttons">
-                                    <form action="{{ route('rate', $book) }}" method="post">
-                                        <select name="rate">
-                                            @foreach (range(1, 10) as $value)
-                                                <option value="{{ $value }}">{{ $value }}</option>
-                                            @endforeach
-                                        </select>
+                                    <form action="{{ route('reserve_Book', $book) }}" method="post">
+                                        <input type="hidden" value="{{$book->id}}">
                                         @csrf
                                         @method('put')
-                                        <button type="submit" class="btn btn-info">Rate</button>
+                                        <button type="submit" class="btn btn-info">Reserve</button>
+                                    </form>
+                                </div>
+                                @endif
+                                <div class="buttons">
+                                    <form action="{{ route('favourite_Book', $book) }}" method="post">
+                                        <input type="hidden" value="{{$book->id}}">
+                                        @csrf
+                                        @method('put')
+                                        <button type="submit" class="btn btn-info">Add to favourites</button>
                                     </form>
                                 </div>
                             </div>

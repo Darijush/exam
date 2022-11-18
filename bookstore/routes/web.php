@@ -16,10 +16,6 @@ use App\Http\Controllers\BookController as B;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 
@@ -28,7 +24,7 @@ Route::put('/reserve/{book}', [H::class, 'reserveBook'])->name('reserve_Book')->
 Route::put('/favourite/{book}', [H::class, 'addFavouriteBook'])->name('favourite_Book')->middleware('gate:users');
 
 Route::prefix('category')->name('c_')->group(function () {
-    Route::get('/', [C::class, 'index'])->name('index');
+    Route::get('/', [C::class, 'index'])->name('index')->middleware('gate:users');
     Route::get('/create', [C::class, 'create'])->name('create')->middleware('gate:admin');
     Route::post('/create', [C::class, 'store'])->name('store')->middleware('gate:admin');
     Route::get('/show/{category}', [C::class, 'show'])->name('show')->middleware('gate:admin');
@@ -38,7 +34,7 @@ Route::prefix('category')->name('c_')->group(function () {
     Route::delete('/delete_books/{category}', [C::class, 'destroyAll'])->name('delete_books')->middleware('gate:admin');
 });
 Route::prefix('book')->name('b_')->group(function () {
-    Route::get('/', [B::class, 'index'])->name('index')->middleware('gate:admin');
+    Route::get('/', [B::class, 'index'])->name('index')->middleware('gate:users');
     Route::get('/create', [B::class, 'create'])->name('create')->middleware('gate:admin');
     Route::post('/create', [B::class, 'store'])->name('store')->middleware('gate:admin');
     Route::get('/show/{book}', [B::class, 'show'])->name('show')->middleware('gate:admin');

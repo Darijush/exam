@@ -61,7 +61,7 @@
                                                 </a>
                                             </h5>
                                             @if ($book->url)
-                                                <h5><a href="{{ $book->url }}" target="_BLANK">Photos</a></h5>
+                                                <h5><a href="{{ $book->url }}" target="_BLANK">Photo</a></h5>
                                             @endif
                                         </div>
                                         <div class="buttons">

@@ -19,8 +19,8 @@ class Gate
     {
 
         $permissions = [
-            1 => ['user', 'home'],
-            10 => ['user', 'admin', 'home']
+            1 => ['users', 'home'],
+            10 => ['users', 'admin', 'home']
         ];
 
         if (!Auth::user()) {
