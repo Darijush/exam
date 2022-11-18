@@ -22,6 +22,8 @@ Auth::routes();
 Route::get('/', [H::class, 'homeList'])->name('home_list')->middleware('gate:home');
 Route::put('/reserve/{book}', [H::class, 'reserveBook'])->name('reserve_Book')->middleware('gate:users');
 Route::put('/favourite/{book}', [H::class, 'addFavouriteBook'])->name('favourite_Book')->middleware('gate:users');
+Route::get('/reservations', [H::class, 'reservations'])->name('reservations')->middleware('gate:users');
+Route::get('/favourites', [H::class, 'favourites'])->name('favourites')->middleware('gate:users');
 
 Route::prefix('category')->name('c_')->group(function () {
     Route::get('/', [C::class, 'index'])->name('index')->middleware('gate:users');

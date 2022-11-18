@@ -6,7 +6,7 @@ use App\Models\Book;
 use App\Models\BookUser;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -45,7 +45,7 @@ class HomeController extends Controller
         if ($request->sort == 'title_asc') {
             $books = $books->orderBy('title');
         } elseif ($request->sort == 'title_desc') {
-            $books = $books->orderBy('rating', 'desc');
+            $books = $books->orderBy('title', 'desc');
         } elseif ($request->sort == 'price_asc') {
             $books = $books->orderBy('price');
         } elseif ($request->sort == 'price_desc') {
@@ -60,21 +60,37 @@ class HomeController extends Controller
             's' => $request->s ?? ''
         ]);
     }
-    public function reserveBook(Book $book, Auth $user)
+    public function reserveBook(Book $book)
     {
+        $id = Auth::user()->id;
         $book->update([
-            'user_id' => $user->id,
+            'user_id' => $id,
         ]);
-        return redirect()->route('b_index');
+        return redirect()->route('home_list');
     }
 
-    public function addFavouriteBook(Book $book, Auth $user)
+    public function addFavouriteBook(Book $book)
     {
+        $id = Auth::user()->id;
         BookUser::create([
-            'user_id' => $user->id,
+            'user_id' => $id,
             'book_id' => $book->id,
         ]);
 
-        return redirect()->route('b_index');
+        return redirect()->route('home_list');
+    }
+    public function reservations()
+    {
+        $id = Auth::user()->id;
+        return view('home.reservations', [
+            'books' => Book::where('user_id', $id)->get(),
+        ]);
+    }
+    public function favourites()
+    {
+        $id = Auth::user()->id;
+        return view('home.favourites', [
+            'books' => BookUser::where('user_id', $id)->getBooks(),
+        ]);
     }
 }
