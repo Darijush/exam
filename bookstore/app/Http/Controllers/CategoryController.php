@@ -100,9 +100,10 @@ class CategoryController extends Controller
     }
     public function destroyAll(Category $category)
     {
+
         $ids = $category->hasBooks()->pluck('id')->all();
-        foreach($ids as $id){
-            $book = Book::where('id', $id);
+        $books = Book::where('id',$ids)->get();
+        foreach($books as $book){
             unlink(public_path() . '/images/' . pathinfo($book->url, PATHINFO_FILENAME) . '.' . pathinfo($book->url, PATHINFO_EXTENSION));
         }
         Book::destroy($ids);
