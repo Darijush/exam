@@ -18,6 +18,10 @@ class Book extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+    public function getPivot()
+    {
+        return $this->hasMany(BookUser::class, 'book_id', 'id');
+    }
 
     public function addPhoto($photo)
     {

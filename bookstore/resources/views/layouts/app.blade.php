@@ -88,9 +88,6 @@
                                     <a class="dropdown-item" href="{{ route('reservations') }}">
                                        Your reservations
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('reservations' ) }}">
-                                        Your favourites
-                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -52,7 +52,7 @@ class HomeController extends Controller
             $books = $books->orderBy('price', 'desc');
         }
         return view('home.index', [
-            'books' => $books->get(),
+            'books' => $books->paginate(9),
             'categories' => Category::orderBy('title', 'asc')->get(),
             'cat' => $request->cat ?? 0,
             'sort' => $request->sort ?? 0,
@@ -83,7 +83,7 @@ class HomeController extends Controller
     {
         $id = Auth::user()->id;
         return view('home.reservations', [
-            'books' => Book::where('user_id', $id)->get(),
+            'books' => Book::where('user_id', $id)->paginate(9),
         ]);
     }
     public function favourites()

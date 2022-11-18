@@ -14,6 +14,7 @@
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-xl-5 col-12">
+                                                    <span>Categories</span>
                                                     <select name="cat" class="form-select mt-1">
                                                         <option value="0">All</option>
                                                         @foreach ($categories as $category)
@@ -24,6 +25,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-xl-5 col-12">
+                                                    <span>Sort by title</span>
                                                     <select name="sort" class="form-select mt-1">
                                                         <option value="0">All</option>
                                                         @foreach ($sortSelect as $option)
@@ -109,7 +111,7 @@
                 </ul>
             </div>
             <div class="me-3 mx-3">
-                {{-- {{ $books->links() }} --}}
+                {{ $books->links() }}
             </div>
         </div>
     </div>

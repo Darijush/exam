@@ -18,7 +18,7 @@ class BookController extends Controller
         return view(
             'book.index',
             [
-                'books' => Book::orderBy('created_at', 'desc')->get(),
+                'books' => Book::orderBy('created_at', 'desc')->paginate(9),
                 'categories' => Category::orderBy('created_at', 'desc')->get(),
             ]
         );
@@ -44,6 +44,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'title' => 'required|max:255|min:3',
+                'isbn' => 'required|min:10|max:20',
+                'pages' => 'required|numeric|min:1|max:200',
+                'summary' => 'required|min:30|max:500',
+                'summary' => 'required',
+                'photo.*' => 'sometimes|required|image|max:2048',
+            ]
+        );
+
         Book::create([
             'title' => $request->title,
             'summary' => $request->summary,
@@ -92,9 +103,19 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+        $request->validate(
+            [
+                'title' => 'required|max:255|min:3',
+                'isbn' => 'required|min:10|max:20',
+                'pages' => 'required|numeric|min:1|max:200',
+                'summary' => 'required|min:30|max:500',
+                'summary' => 'required',
+                'photo.*' => 'sometimes|required|image|max:2048',
+            ]
+        );
         $book
-        ->deletePhoto($request->delete_photo)
-        ->updatePhoto($request->file('photo'));
+            ->deletePhoto($request->delete_photo)
+            ->updatePhoto($request->file('photo'));
         $book->update([
             'title' => $request->title,
             'summary' => $request->summary,

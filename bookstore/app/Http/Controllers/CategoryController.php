@@ -41,6 +41,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'title' => 'required|max:255|min:4',
+            ]
+        );
         Category::create([
             'title' => $request->title,
         ]);
@@ -79,6 +84,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $request->validate(
+            [
+                'title' => 'required|max:255|min:4',
+            ]
+        );
         $category->update([
             'title' => $request->title,
         ]);
@@ -102,8 +112,8 @@ class CategoryController extends Controller
     {
 
         $ids = $category->hasBooks()->pluck('id')->all();
-        $books = Book::where('id',$ids)->get();
-        foreach($books as $book){
+        $books = Book::where('id', $ids)->get();
+        foreach ($books as $book) {
             unlink(public_path() . '/images/' . pathinfo($book->url, PATHINFO_FILENAME) . '.' . pathinfo($book->url, PATHINFO_EXTENSION));
         }
         Book::destroy($ids);
