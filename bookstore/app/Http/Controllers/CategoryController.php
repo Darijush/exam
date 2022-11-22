@@ -113,9 +113,9 @@ class CategoryController extends Controller
 
         $ids = $category->hasBooks()->pluck('id')->all();
         $books = Book::where('id', $ids)->get();
-        foreach ($books as $book) {
-            unlink(public_path() . '/images/' . pathinfo($book->url, PATHINFO_FILENAME) . '.' . pathinfo($book->url, PATHINFO_EXTENSION));
-        }
+        // foreach ($books as $book) {
+        //     unlink(public_path() . '/images/' . pathinfo($book->url, PATHINFO_FILENAME) . '.' . pathinfo($book->url, PATHINFO_EXTENSION));
+        // }
         Book::destroy($ids);
         return redirect()->route('c_index')->with('ok', 'Books deleted');
     }

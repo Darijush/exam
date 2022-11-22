@@ -28,7 +28,9 @@ class HomeController extends Controller
     public function homeList(Request $request)
     {
         //filter
-        if ($request->s) {
+        if ($request->cat) {
+            $movies = Book::where('category_id', $request->cat);
+        } else if ($request->s) {
             $search = explode(' ', $request->s);
             if (count($search) == 1) {
                 $books = Book::where('title', 'like', '%' . $request->s . '%');
@@ -43,13 +45,13 @@ class HomeController extends Controller
         }
         //sort
         if ($request->sort == 'title_asc') {
-            $books = $books->orderBy('title');
+            $books->orderBy('title');
         } elseif ($request->sort == 'title_desc') {
-            $books = $books->orderBy('title', 'desc');
+            $books->orderBy('title', 'desc');
         } elseif ($request->sort == 'price_asc') {
-            $books = $books->orderBy('price');
+            $books->orderBy('price');
         } elseif ($request->sort == 'price_desc') {
-            $books = $books->orderBy('price', 'desc');
+            $books->orderBy('price', 'desc');
         }
         return view('home.index', [
             'books' => $books->paginate(9),
@@ -60,6 +62,7 @@ class HomeController extends Controller
             's' => $request->s ?? ''
         ]);
     }
+
     public function reserveBook(Book $book)
     {
         $id = Auth::user()->id;
@@ -79,6 +82,7 @@ class HomeController extends Controller
 
         return redirect()->route('home_list');
     }
+
     public function reservations()
     {
         $id = Auth::user()->id;
@@ -86,6 +90,7 @@ class HomeController extends Controller
             'books' => Book::where('user_id', $id)->paginate(9),
         ]);
     }
+
     public function favourites()
     {
         $id = Auth::user()->id;

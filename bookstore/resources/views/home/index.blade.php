@@ -35,7 +35,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-2 mt-1">
+                                                <div class="col-2 mt-4">
                                                     <button type="submit" class="input-group-text">Sort</button>
                                                 </div>
                                             </div>
