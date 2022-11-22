@@ -29,7 +29,7 @@ class HomeController extends Controller
     {
         //filter
         if ($request->cat) {
-            $movies = Book::where('category_id', $request->cat);
+            $books = Book::where('category_id', $request->cat);
         } else if ($request->s) {
             $search = explode(' ', $request->s);
             if (count($search) == 1) {
